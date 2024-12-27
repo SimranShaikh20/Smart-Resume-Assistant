@@ -1,5 +1,9 @@
 # Smart ATS
 
+## Here is Application Link :
+https://smart-resume-assistant-stxn4ic8g3ycaewftvcykt.streamlit.app/
+
+
 ## Description
 The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web application that helps job seekers optimize their resumes based on a given job description (JD). By using Google's Gemini AI and modern text-processing techniques, it evaluates resumes, provides a match percentage, identifies missing keywords, and generates a profile summary for better alignment with job requirements. This tool is ideal for improving resumes and standing out in competitive job markets.
 

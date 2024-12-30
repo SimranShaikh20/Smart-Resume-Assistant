@@ -1,7 +1,9 @@
 # Smart ATS
 
 ## Here is Application Link :
-https://smart-resume-assistant-stxn4ic8g3ycaewftvcykt.streamlit.app/
+
+**Application Link**: [Interview Preparation Q&A Chatbot](https://smart-resume-assistant-stxn4ic8g3ycaewftvcykt.streamlit.app/)
+
 
 
 ## Description

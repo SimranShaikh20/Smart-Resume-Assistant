@@ -2,7 +2,7 @@
 
 ## Here is Application Link :
 
-**Application Link**: [Resume Ats Checker Chatbot](https://smart-resume-assistant-stxn4ic8g3ycaewftvcykt.streamlit.app/)
+**Application Link**: [Resume Ats Checker Chatbot](https://smart-resume-assistant-4ztrqstzwr9krvd38d78r8.streamlit.app/)
 
 
 

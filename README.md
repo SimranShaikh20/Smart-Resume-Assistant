@@ -1,20 +1,17 @@
-# Smart ATS
+# Smart ATS 🚀
 
-## Here is Application Link :
-
-**Application Link**: [Resume Ats Checker Chatbot](https://smart-resume-assistant-4ztrqstzwr9krvd38d78r8.streamlit.app/)
-
-
+## Application Link
+[Resume ATS Checker Chatbot](https://smart-resume-assistant-4ztrqstzwr9krvd38d78r8.streamlit.app/)
 
 ## Description
-The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web application that helps job seekers optimize their resumes based on a given job description (JD). By using Google's Gemini AI and modern text-processing techniques, it evaluates resumes, provides a match percentage, identifies missing keywords, and generates a profile summary for better alignment with job requirements. This tool is ideal for improving resumes and standing out in competitive job markets.
+The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web application designed to help job seekers optimize their resumes based on a given job description (JD). It utilizes Google's Gemini AI and advanced text-processing techniques to evaluate resumes, provide a match percentage, identify missing keywords, and generate a profile summary for better alignment with job requirements. This tool enhances resume quality, helping candidates stand out in competitive job markets.
 
 ---
 
 ## Features
-- **Resume Evaluation:** Analyze uploaded resumes to determine their match with the provided job description.
-- **Keyword Matching:** Identify missing keywords critical to aligning resumes with the JD.
-- **Profile Summary:** Generate a concise summary highlighting the resume's key strengths.
+- **Resume Evaluation:** Analyzes uploaded resumes to determine their match with the provided job description.
+- **Keyword Matching:** Identifies missing keywords critical to aligning resumes with the JD.
+- **Profile Summary:** Generates a concise summary highlighting key strengths in the resume.
 - **Interactive Interface:** User-friendly web interface built with Streamlit.
 
 ---
@@ -34,7 +31,7 @@ The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web applicati
    - A custom prompt template is populated with the extracted resume text and the provided job description.
 
 5. **AI Analysis:**
-   - The prompt is sent to Google’s Gemini AI (via `google.generativeai` package), which evaluates the resume, calculates the match percentage, identifies missing keywords, and generates a profile summary.
+   - The prompt is sent to Google’s Gemini AI (via `google-generativeai` package), which evaluates the resume, calculates the match percentage, identifies missing keywords, and generates a profile summary.
 
 6. **Output Results:**
    - The results, including the JD match percentage, missing keywords, and profile summary, are displayed in the app interface for the user to review.
@@ -76,7 +73,6 @@ The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web applicati
      ```env
      GOOGLE_API_KEY=your_api_key_here
      ```
-
 5. Run the app:
    ```bash
    streamlit run app.py
@@ -95,7 +91,6 @@ The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web applicati
    - Profile Summary
 
 ---
----
 
 ## Project Structure
 ```
@@ -113,6 +108,44 @@ smart-ats/
 - **Google Gemini AI:** For advanced natural language processing and content generation.
 - **PyPDF2:** For extracting text from PDF resumes.
 - **Python-dotenv:** To manage environment variables securely.
+
+---
+
+## How It Works (Technical Details)
+
+### 1. Data Collection
+The application collects two primary inputs from the user:
+- **Resume:** The user uploads their resume in PDF format.
+- **Job Description:** The user provides the job description (either by pasting text or uploading a file).
+
+These inputs are processed to extract relevant information for analysis.
+
+### 2. Resume and Job Description Processing
+- **Text Extraction:**
+  - The resume and job description are parsed to extract text content.
+  - For PDFs, libraries like PyPDF2 extract text from the document.
+  - For job descriptions, plain text is processed directly.
+
+- **Keyword Extraction:**
+  - The job description is analyzed to identify important keywords and phrases.
+  - Techniques like **TF-IDF** (Term Frequency-Inverse Document Frequency) or **Named Entity Recognition (NER)** extract critical terms such as skills, technologies, certifications, and job-specific requirements.
+
+### 3. Resume Evaluation
+- **Match Percentage Calculation:**
+  - Tokenizes the resume and job description into words or phrases.
+  - Counts the overlap of keywords between the resume and job description.
+  - Calculates the match percentage using the formula:
+    ```
+    Match Percentage = (Number of Matching Keywords / Total Keywords in Job Description) * 100
+    ```
+
+- **Missing Keywords Identification:**
+  - Extracts important keywords from the job description that are not present in the resume.
+  - Provides suggestions to improve the resume’s alignment with the job description.
+
+- **Profile Summary Generation:**
+  - Uses Google’s Gemini AI to generate a profile summary based on the resume content.
+  - Highlights key skills, experiences, and achievements, making it easier for recruiters to assess suitability for the role.
 
 ---
 

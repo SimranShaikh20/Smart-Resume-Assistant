@@ -16,28 +16,6 @@ The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web applicati
 
 ---
 
-## How It Works
-
-1. **Input Job Description:**
-   - The user pastes the job description (JD) into the text area provided in the app.
-
-2. **Upload Resume:**
-   - The user uploads their resume in PDF format.
-
-3. **Text Extraction from PDF:**
-   - The app uses the PyPDF2 library to extract text from the uploaded PDF file.
-
-4. **Prompt Generation:**
-   - A custom prompt template is populated with the extracted resume text and the provided job description.
-
-5. **AI Analysis:**
-   - The prompt is sent to Google’s Gemini AI (via `google-generativeai` package), which evaluates the resume, calculates the match percentage, identifies missing keywords, and generates a profile summary.
-
-6. **Output Results:**
-   - The results, including the JD match percentage, missing keywords, and profile summary, are displayed in the app interface for the user to review.
-
----
-
 ## Installation
 
 ### Prerequisites

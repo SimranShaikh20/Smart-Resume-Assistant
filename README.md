@@ -1,34 +1,61 @@
-# Smart ATS 🚀
+# 📝 Smart ATS Analyzer 🚀
 
-## Application Link
-[Resume ATS Checker Chatbot](https://smart-resume-assistant-4ztrqstzwr9krvd38d78r8.streamlit.app/)
+## 🔗 Application Link
+[Smart Resume Assistant](https://smart-resume-assistant-4ztrqstzwr9krvd38d78r8.streamlit.app/)
 
-## Description
-The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web application designed to help job seekers optimize their resumes based on a given job description (JD). It utilizes Google's Gemini AI and advanced text-processing techniques to evaluate resumes, provide a match percentage, identify missing keywords, and generate a profile summary for better alignment with job requirements. This tool enhances resume quality, helping candidates stand out in competitive job markets.
-
----
-
-## Features
-- **Resume Evaluation:** Analyzes uploaded resumes to determine their match with the provided job description.
-- **Keyword Matching:** Identifies missing keywords critical to aligning resumes with the JD.
-- **Profile Summary:** Generates a concise summary highlighting key strengths in the resume.
-- **Interactive Interface:** User-friendly web interface built with Streamlit.
+## 📄 Description
+The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web application designed to help job seekers optimize their resumes based on a provided Job Description (JD). It uses **Google's Gemini 1.5 Pro model** for advanced resume analysis, providing detailed feedback, keyword recommendations, and a personalized summary.
 
 ---
 
-## Installation
+## ✨ Features
+- **🔍 Resume Evaluation:** Analyzes your resume against the provided JD.
+- **🧠 Gemini AI Feedback:** Utilizes Google's Gemini Pro LLM for professional and constructive analysis.
+- **📊 ATS Match Score:** Gives a match score out of 100.
+- **📌 Missing Keywords:** Detects missing terms from your resume.
+- **💼 Strengths & Improvements:** Highlights key strengths and suggests critical improvements.
+- **📝 Summary Suggestions:** Rewrites a tailored professional summary.
 
-### Prerequisites
+---
+
+## 📈 Why Gemini 1.5 Pro?
+The **Gemini 1.5 Pro** model by Google was selected due to its advanced reasoning capabilities, fast token processing, and accurate text comprehension. Here's why it's a great fit for our project:
+
+- ✅ **Long Context Support:** Can handle large resume and job description documents with high accuracy.
+- ⚡ **Fast Inference:** Provides quick feedback for real-time applications like this.
+- 🔍 **Contextual Understanding:** Delivers better results when comparing nuanced resume content with job descriptions.
+- 🤝 **Professional Tone:** Generates human-like, recruiter-quality summaries and suggestions.
+
+Gemini's performance ensures resume feedback is not just keyword-based, but also thoughtful and strategically sound.
+
+---
+
+## 🔄 Project Workflow
+```mermaid
+graph TD
+    A[User Inputs Job Description] --> B[User Uploads Resume PDF]
+    B --> C[Extract Resume Text with PyPDF2]
+    A --> D[Create Structured Prompt with JD and Resume]
+    C --> D
+    D --> E[Send Prompt to Gemini 1.5 Pro]
+    E --> F[Receive Structured Markdown Feedback]
+    F --> G[Display Results in Streamlit Interface]
+```
+
+---
+
+## ⚙️ Installation
+
+### ✅ Prerequisites
 - Python 3.8+
-- Pip
 
-### Libraries Used
+### 📦 Libraries Used
 - `streamlit`
 - `google-generativeai`
 - `PyPDF2`
 - `python-dotenv`
 
-### Steps
+### 🛠️ Steps
 1. Clone the repository:
    ```bash
    git clone <repository_url>
@@ -41,13 +68,9 @@ The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web applicati
    ```bash
    pip install -r requirements.txt
    ```
-4. Set up environment variables:
-   - Create a `.env` file in the project directory.
-   - Get your Google API key from [Google AI Studio](https://aistudio.google.com/app/apikey):
-     1. Visit the link and sign in with your Google account.
-     2. Generate a new API key if you don’t already have one.
-     3. Copy the API key.
-   - Add your API key to the `.env` file:
+4. Set up your environment:
+   - Create a `.env` file in the project root.
+   - Add your Google API key (from [Google AI Studio](https://aistudio.google.com/app/apikey)):
      ```env
      GOOGLE_API_KEY=your_api_key_here
      ```
@@ -58,87 +81,70 @@ The **Smart ATS (Applicant Tracking System)** is a Streamlit-based web applicati
 
 ---
 
-## Usage
-1. Launch the app in your browser.
-2. Paste the job description into the provided text area.
-3. Upload your resume in PDF format.
-4. Click the **Submit** button to analyze your resume.
-5. Review the detailed results, including:
-   - JD Match Percentage
-   - Missing Keywords
-   - Profile Summary
+## 🚀 Usage
+1. Open the app in your browser.
+2. Paste the job description into the text area.
+3. Upload your resume in **PDF** format.
+4. Click **🔍 Analyze Resume**.
+5. Review the detailed markdown-formatted results:
+   - **🏆 ATS Match Score**
+   - **🔍 JD Match %**
+   - **✅ Strengths**
+   - **⚠️ Missing Keywords**
+   - **📌 Improvements**
+   - **💡 Recommendations**
+   - **📝 Summary Suggestion**
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 ```
 smart-ats/
-├── app.py            # Main application file
-├── requirements.txt  # List of dependencies
-├── .env              # Environment variables file
-├── README.md         # Project documentation
+├── app.py            # Streamlit app
+├── requirements.txt  # Python dependencies
+├── .env              # API key
+├── README.md         # Project docs
 ```
 
 ---
 
-## Technologies Used
-- **Streamlit:** Frontend framework for building the user interface.
-- **Google Gemini AI:** For advanced natural language processing and content generation.
-- **PyPDF2:** For extracting text from PDF resumes.
-- **Python-dotenv:** To manage environment variables securely.
+## 🧠 How It Works
+### 🔐 Input Collection
+- User provides:
+  - **Job Description**
+  - **PDF Resume**
+
+### 📥 Text Extraction
+- Extracts resume content using **PyPDF2**.
+
+### 🤖 LLM Interaction
+- Combines JD + Resume into a prompt with exact formatting.
+- Sends to **Gemini 1.5 Pro** for structured markdown output.
+
+### 📋 Analysis Output
+- AI returns markdown with:
+  - Match score
+  - Matching %
+  - Strengths
+  - Missing skills
+  - Suggestions
+  - Custom professional summary
 
 ---
 
-## How It Works (Technical Details)
-
-### 1. Data Collection
-The application collects two primary inputs from the user:
-- **Resume:** The user uploads their resume in PDF format.
-- **Job Description:** The user provides the job description (either by pasting text or uploading a file).
-
-These inputs are processed to extract relevant information for analysis.
-
-### 2. Resume and Job Description Processing
-- **Text Extraction:**
-  - The resume and job description are parsed to extract text content.
-  - For PDFs, libraries like PyPDF2 extract text from the document.
-  - For job descriptions, plain text is processed directly.
-
-- **Keyword Extraction:**
-  - The job description is analyzed to identify important keywords and phrases.
-  - Techniques like **TF-IDF** (Term Frequency-Inverse Document Frequency) or **Named Entity Recognition (NER)** extract critical terms such as skills, technologies, certifications, and job-specific requirements.
-
-### 3. Resume Evaluation
-- **Match Percentage Calculation:**
-  - Tokenizes the resume and job description into words or phrases.
-  - Counts the overlap of keywords between the resume and job description.
-  - Calculates the match percentage using the formula:
-    ```
-    Match Percentage = (Number of Matching Keywords / Total Keywords in Job Description) * 100
-    ```
-
-- **Missing Keywords Identification:**
-  - Extracts important keywords from the job description that are not present in the resume.
-  - Provides suggestions to improve the resume’s alignment with the job description.
-
-- **Profile Summary Generation:**
-  - Uses Google’s Gemini AI to generate a profile summary based on the resume content.
-  - Highlights key skills, experiences, and achievements, making it easier for recruiters to assess suitability for the role.
+## 🚧 Future Enhancements
+- 📄 Support for DOCX and TXT
+- 🌍 Multilingual Resume Support
+- 📤 Exportable Reports
+- 🤝 LinkedIn Integration
 
 ---
 
-## Future Enhancements
-- Support for multiple file formats (e.g., Word, TXT).
-- Integration with other AI models for comparison.
-- Export results as a downloadable report.
-- Multi-language support for global users.
+## 👩‍💻 Author
+Created with ❤️ by **Simran Shaikh**
 
 ---
 
-## Author
-This project was created by **Simran Shaikh**.
+## 📝 License
+Licensed under the **MIT License**.
 
----
-
-## License
-This project is licensed under the MIT License.

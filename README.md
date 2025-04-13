@@ -106,19 +106,6 @@ smart-ats/
 ├── README.md         # Project docs
 ```
 
-
-## 🔄 Project Workflow
-
-```mermaid
-graph TD
-    A[User Inputs Job Description] --> B[User Uploads Resume PDF]
-    B --> C[Extract Resume Text with PyPDF2]
-    A --> D[Create Structured Prompt with JD and Resume]
-    C --> D
-    D --> E[Send Prompt to Gemini 1.5 Pro]
-    E --> F[Receive Structured Markdown Feedback]
-    F --> G[Display Results in Streamlit Interface]
-
 ---
 
 ## 🧠 How It Works

@@ -105,6 +105,22 @@ smart-ats/
 ├── .env              # API key
 ├── README.md         # Project docs
 ```
+-------
+## 🔄 Project Workflow
+
+```mermaid
+graph TD
+    A[User Inputs Interview Question] --> B[User Uploads Study Material PDF]
+    B --> C[Extract Text from PDF using PyPDF2]
+    A --> D[Create Structured Query from Interview Question and Study Material]
+    C --> D
+    D --> E[Generate Embedding for Query using Google AI Embeddings]
+    E --> F[Perform Similarity Search with FAISS Database]
+    F --> G[Retrieve Relevant Document Chunks for Context]
+    G --> H[Send Contextual Query and Document Chunks to ChatGroq LLM]
+    H --> I[Receive Tailored Response from ChatGroq LLM]
+    I --> J[Display Answer and Relevant Context in Streamlit Interface]
+
 
 ---
 

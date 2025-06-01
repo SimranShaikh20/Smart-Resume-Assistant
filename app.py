@@ -1,87 +1,68 @@
 import streamlit as st
-import google.generativeai as genai
 import os
-import PyPDF2 as pdf
+from langchain_groq import ChatGroq
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.chains import create_retrieval_chain
+from langchain_community.vectorstores import FAISS
+from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
+import time
 
-# Load environment variables
 load_dotenv()
 
-# Configure Gemini API key
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+## load the GROQ And OpenAI API KEY
+groq_api_key = os.getenv('GROQ_API_KEY')
+os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
-def get_gemini_response(prompt):
-    model = genai.GenerativeModel('gemini-1.5-pro-latest') 
-    response = model.generate_content(prompt)
-    return response.text
+st.title("Interview Preparation Q&A Chatbot")
 
-def input_pdf_text(uploaded_file):
-    reader = pdf.PdfReader(uploaded_file)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text()
-    return text
+llm = ChatGroq(groq_api_key=groq_api_key, model_name="Llama3-8b-8192")
 
-# Streamlit UI
-st.title("📝 Smart ATS Analyzer")
-st.markdown("### Boost Your Resume's Chances Against Applicant Tracking Systems")
+prompt = ChatPromptTemplate.from_template(
+    """
+Answer the questions based on the provided context only.
+Please provide the most accurate response based on the question
+<context>
+{context}
+<context>
+Questions:{input}
+"""
+)
 
-jd = st.text_area("**Paste the Job Description Here**", height=150)
-uploaded_file = st.file_uploader("**Upload Your Resume (PDF only)**", type="pdf")
+def vector_embedding():
+    if "vectors" not in st.session_state:
+        st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        st.session_state.loader = PyPDFDirectoryLoader("./study_material")  ## Data Ingestion
+        st.session_state.docs = st.session_state.loader.load()  ## Document Loading
+        st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)  ## Chunk Creation
+        st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs[:20])  # splitting
+        st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)  # vector embeddings
 
-submit = st.button("🔍 Analyze Resume")
+prompt1 = st.text_input("Enter Your Question for Topics(DBMS,HR,OOPS,OS,SQL)")
 
-if submit:
-    if uploaded_file is not None and jd.strip() != "":
-        text = input_pdf_text(uploaded_file)
-        
-        input_prompt = f"""
-        ACT as a professional HR recruiter with 10+ years experience in technical hiring.
-        Analyze this resume against the job description and provide detailed feedback.
-        
-        **RESUME CONTENT:**
-        {text}
-        
-        **JOB DESCRIPTION:**
-        {jd}
-        
-        Provide your analysis in this EXACT format with bold headings (markdown):
-        
-        **🏆 ATS Match Score:** [X/100]
-        
-        **🔍 JD Match Percentage:** XX% 
-        
-        **✅ Key Strengths:**
-        - Strength 1 with explanation
-        - Strength 2 with explanation
-        - (3-5 bullet points)
-        
-        **⚠️ Missing Keywords/Skills:**
-        - Missing keyword 1 (why it matters)
-        - Missing keyword 2 (why it matters)
-        - (List all important missing items)
-        
-        **📌 Critical Improvements Needed:**
-        - Improvement 1 with specific suggestions
-        - Improvement 2 with specific suggestions
-        - (Actionable advice)
-        
-        **💡 Personalized Recommendations:**
-        1. First recommendation to boost match
-        2. Second recommendation to stand out
-        3. Third recommendation for better formatting
-        
-        **📝 Professional Summary Suggestion:**
-        [Write a 3-4 line professional summary that would work better for this specific job]
-        
-        Be brutally honest but constructive. Focus on technical requirements first, then soft skills.
-        """
-        
-        response = get_gemini_response(input_prompt)
-        
-        st.markdown("---")
-        st.markdown("## 🔬 Detailed Resume Analysis")
-        st.markdown(response)  # This will render the markdown formatting
-        
+if st.button("Documents Embedding"):
+    vector_embedding()
+    st.write("Vector Store DB Is Ready")
+
+# Only process the question if vectors have been initialized
+if prompt1:
+    if "vectors" in st.session_state:
+        document_chain = create_stuff_documents_chain(llm, prompt)
+        retriever = st.session_state.vectors.as_retriever()
+        retrieval_chain = create_retrieval_chain(retriever, document_chain)
+        start = time.process_time()
+        response = retrieval_chain.invoke({'input': prompt1})
+        print("Response time :", time.process_time() - start)
+        st.write(response['answer'])
+
+        # With a streamlit expander
+        with st.expander("Document Similarity Search"):
+            # Find the relevant chunks
+            for i, doc in enumerate(response["context"]):
+                st.write(doc.page_content)
+                st.write("--------------------------------")
     else:
-        st.warning("⚠️ Please provide both a job description and a PDF resume.")
+        st.warning("Please click 'Documents Embedding' button first to initialize the vector database.")
